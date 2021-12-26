@@ -9,15 +9,15 @@ declare(strict_types=1);
 namespace EveryWorkflow\CatalogCategoryBundle\Repository;
 
 use EveryWorkflow\CatalogCategoryBundle\Entity\CatalogCategoryEntity;
-use EveryWorkflow\CoreBundle\Annotation\RepoDocument;
 use EveryWorkflow\EavBundle\Repository\BaseEntityRepository;
+use EveryWorkflow\EavBundle\Support\Attribute\EntityRepositoryAttribute;
 
-/**
- * @RepoDocument(doc_name=CatalogCategoryEntity::class)
- */
+#[EntityRepositoryAttribute(
+    documentClass: CatalogCategoryEntity::class,
+    primaryKey: 'path',
+    entityCode: 'catalog_category'
+)]
 class CatalogCategoryRepository extends BaseEntityRepository implements CatalogCategoryRepositoryInterface
 {
-    protected string $collectionName = 'catalog_category_entity_collection';
-    protected array $indexNames = ['path'];
-    protected string $entityCode = 'catalog_category';
+    // Something
 }

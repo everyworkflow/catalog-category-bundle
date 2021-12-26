@@ -6,13 +6,12 @@
 
 declare(strict_types=1);
 
-namespace EveryWorkflow\CatalogCategoryBundle\Controller\Admin;
+namespace EveryWorkflow\CatalogCategoryBundle\Controller;
 
 use EveryWorkflow\CatalogCategoryBundle\Repository\CatalogCategoryRepositoryInterface;
-use EveryWorkflow\CoreBundle\Annotation\EWFRoute;
+use EveryWorkflow\CoreBundle\Annotation\EwRoute;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class GetCategoryController extends AbstractController
 {
@@ -23,16 +22,22 @@ class GetCategoryController extends AbstractController
         $this->catalogCategoryRepository = $catalogCategoryRepository;
     }
 
-    /**
-     * @EWFRoute(
-     *     admin_api_path="catalog/category/{uuid}",
-     *     defaults={"uuid"="create"},
-     *     name="admin.catalog.category.view",
-     *     methods="GET"
-     * )
-     * @throws \Exception
-     */
-    public function __invoke(string $uuid, Request $request): JsonResponse
+    #[EwRoute(
+        path: "catalog/category/{uuid}",
+        name: 'catalog.category.view',
+        methods: 'GET',
+        permissions: 'catalog.category.view',
+        swagger: [
+            'parameters' => [
+                [
+                    'name' => 'uuid',
+                    'in' => 'path',
+                    'default' => 'create',
+                ]
+            ]
+        ]
+    )]
+    public function __invoke(string $uuid = 'create'): JsonResponse
     {
         $data = [];
 
@@ -45,6 +50,6 @@ class GetCategoryController extends AbstractController
 
         $data['data_form'] = $this->catalogCategoryRepository->getForm()->toArray();
 
-        return (new JsonResponse())->setData($data);
+        return new JsonResponse($data);
     }
 }

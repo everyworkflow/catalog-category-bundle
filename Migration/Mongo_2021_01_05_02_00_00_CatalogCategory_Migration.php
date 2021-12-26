@@ -34,14 +34,13 @@ class Mongo_2021_01_05_02_00_00_CatalogCategory_Migration implements MigrationIn
     public function migrate(): bool
     {
         /** @var EntityDocument $categoryEntity */
-        $categoryEntity = $this->entityRepository->getDocumentFactory()
-            ->create(EntityDocument::class);
+        $categoryEntity = $this->entityRepository->create();
         $categoryEntity
             ->setName('Catalog category')
             ->setCode($this->catalogCategoryRepository->getEntityCode())
             ->setClass(CatalogCategoryEntity::class)
             ->setStatus(CatalogCategoryEntity::STATUS_ENABLE);
-        $this->entityRepository->save($categoryEntity);
+        $this->entityRepository->saveOne($categoryEntity);
 
         $attributeData = [
             [
@@ -66,13 +65,12 @@ class Mongo_2021_01_05_02_00_00_CatalogCategory_Migration implements MigrationIn
         foreach ($attributeData as $item) {
             $item['entity_code'] = $this->catalogCategoryRepository->getEntityCode();
             $item['sort_order'] = $sortOrder++;
-            $attribute = $this->attributeRepository->getDocumentFactory()
-                ->createAttribute($item);
-            $this->attributeRepository->save($attribute);
+            $attribute = $this->attributeRepository->create($item);
+            $this->attributeRepository->saveOne($attribute);
         }
 
         $indexKeys = [];
-        foreach ($this->catalogCategoryRepository->getIndexNames() as $key) {
+        foreach ($this->catalogCategoryRepository->getIndexKeys() as $key) {
             $indexKeys[$key] = 1;
         }
         $this->catalogCategoryRepository->getCollection()

@@ -2,7 +2,7 @@
  * @copyright EveryWorkflow. All rights reserved.
  */
 
-import {lazy} from "react";
+import { lazy } from "react";
 
 const CategoryListPage = lazy(() => import("@EveryWorkflow/CatalogCategoryBundle/Admin/Page/CategoryListPage"));
 const CategoryFormPage = lazy(() => import("@EveryWorkflow/CatalogCategoryBundle/Admin/Page/CategoryFormPage"));

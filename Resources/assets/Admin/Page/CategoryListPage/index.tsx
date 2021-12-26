@@ -2,6 +2,6 @@
  * @copyright EveryWorkflow. All rights reserved.
  */
 
-import CategoryFormPage from "./CategoryFormPage";
+import CategoryListPage from "./CategoryListPage";
 
-export default CategoryFormPage;
+export default CategoryListPage;
