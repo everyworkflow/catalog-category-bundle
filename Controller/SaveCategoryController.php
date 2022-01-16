@@ -73,7 +73,7 @@ class SaveCategoryController extends AbstractController
         $item = $this->catalogCategoryRepository->saveOne($item);
 
         return new JsonResponse([
-            'message' => 'Successfully saved changes.',
+            'detail' => 'Successfully saved changes.',
             'item' => $item->toArray(),
         ]);
     }
