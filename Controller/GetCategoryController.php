@@ -12,6 +12,7 @@ use EveryWorkflow\CatalogCategoryBundle\Repository\CatalogCategoryRepositoryInte
 use EveryWorkflow\CoreBundle\Annotation\EwRoute;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class GetCategoryController extends AbstractController
 {
@@ -37,7 +38,7 @@ class GetCategoryController extends AbstractController
             ]
         ]
     )]
-    public function __invoke(string $uuid = 'create'): JsonResponse
+    public function __invoke(Request $request, string $uuid = 'create'): JsonResponse
     {
         $data = [];
 
@@ -48,7 +49,9 @@ class GetCategoryController extends AbstractController
             }
         }
 
-        $data['data_form'] = $this->catalogCategoryRepository->getForm()->toArray();
+        if ($request->get('for') === 'data-form') {
+            $data['data_form'] = $this->catalogCategoryRepository->getForm()->toArray();
+        }
 
         return new JsonResponse($data);
     }
